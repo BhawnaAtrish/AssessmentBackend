@@ -1,9 +1,13 @@
 from projectInformation.models import projectData
-import openpyxl 
-from django.http import JsonResponse
+import openpyxl
 
-def handle1():
-    excel_file = 'D:/Projects/Assessment/static/Project_data.xlsx'
+"""
+Function to load the project data present in the excel into the DB.
+"""
+
+
+def load_excel_data_into_db():
+    excel_file = "Project_data.xlsx"
     wb = openpyxl.load_workbook(excel_file)
 
     worksheet = wb["Sheet1"]
@@ -15,9 +19,8 @@ def handle1():
         for cell in row:
             row_data.append(str(cell.value))
         excel_data.append(row_data)
-    print(excel_data)
-    i = 1
-    for i in range(1,len(excel_data)):
+
+    for i in range(1, len(excel_data)):
         projectData.objects.create(
             project_title=excel_data[i][0],
             project_technologies=excel_data[i][1],
@@ -27,8 +30,3 @@ def handle1():
             technical_skillset_infrastructre=excel_data[i][5],
             other_information_availability=excel_data[i][6],
         )
-
-
-
-
-
